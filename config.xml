@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<widget xmlns="http://www.w3.org/ns/widgets"  xmlns:gap="http://phonegap.com/ns/1.0" id="com.sakec.patient" version="1.0.0">
+<widget xmlns="http://www.w3.org/ns/widgets"  xmlns:gap="http://phonegap.com/ns/1.0" id="com.drdummy.patient" version="1.0.0">
  
-    <name>SAKEC Health App</name>
+    <name>Dr Dummy Health App</name>
     <preference name="orientation" value="default" />
     <preference name="fullscreen" value="false" />
 	<preference name="SplashScreen" value="splash" />
@@ -10,7 +10,7 @@
     <gap:platform name="ios" />
     <gap:platform name="android" />
     <description>
-      SAKEC Health App
+      Dr Dummy Health App
     </description> 
     <author href="http://www.infinisystem.com" email="support@infiniteit.biz">
         Infini Systems
