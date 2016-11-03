@@ -10,8 +10,6 @@
         <button ng-if="apkLanguage == 'english'" class="button button-icon button-clear" ng-click="exitVideo()" style="float:right;"> Exit</button>
         <button ng-if="apkLanguage != 'english'" class="button button-icon button-clear" ng-click="exitVideo()" style="float:right;"> {{langtext.cancel[language]}}</button>
           &nbsp;     &nbsp;     &nbsp;
-        <button ng-if="apkLanguage == 'english'" class="button button-icon button-clear" ng-if="startbroadcast == 1" ng-click="endVideo()" style="float:right;"> End Session</button>
-        <button ng-if="apkLanguage != 'english'" class="button button-icon button-clear" ng-if="startbroadcast == 1" ng-click="endVideo()" style="float:right;"> {{langtext.end[language]}} {{langtext.session[language]}}</button>
     </ion-nav-title>
    	<ion-content>	
 		   <div class="mediascreen mdhight">

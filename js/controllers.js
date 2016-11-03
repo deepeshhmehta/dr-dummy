@@ -7909,7 +7909,15 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
             }).then(function successCallback(response) {
                 $scope.videoBroadcastList = response.data;
             });
-
+            $http({
+                method: 'GET',
+                url: domain + 'video-broadcast-lang',
+                params: {userid: window.localStorage.getItem('id'), interface: window.localStorage.getItem('interface_id')}
+            }).then(function successCallback(response) {
+                console.log(response.data);
+                $scope.langtext = response.data.langtext;
+                $scope.language = response.data.lang.language;
+            });
             $scope.date = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
             $scope.token = '';
             $scope.session = '';
@@ -7995,12 +8003,26 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
             $scope.token =  $stateParams.token;
             $scope.startbroadcast=$stateParams.publish;
             $scope.sessionID =$stateParams.session_id;
-            $scope.hlsLink='';
-            
+            $scope.hlsLink='';   
             $ionicHistory.nextViewOptions({disableBack: true, historyRoot: true});
             $ionicHistory.clearHistory();
-            
-            $scope.initialiseSession = function(sessionId){
+            $scope.token = $stateParams.token;
+            $scope.startbroadcast = $stateParams.publish;
+            $scope.sessionID = $stateParams.session_id;
+            $scope.hlsLink = '';
+
+            $http({
+                method: 'GET',
+                url: domain + 'video-broadcast-stream-lang',
+                params: {id: window.localStorage.getItem('id'), interface: window.localStorage.getItem('interface_id')}
+            }).then(function successCallback(response) {
+                console.log(response.data.session_id);
+                $scope.langtext = response.data.langtext;
+                $scope.language = response.data.lang.language;
+
+            })
+
+            $scope.initialiseSession = function (sessionId) {
                 console.log('initialiseSession started');
                 $http({
                         method: 'GET',
