@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<widget xmlns="http://www.w3.org/ns/widgets"  xmlns:gap="http://phonegap.com/ns/1.0" id="com.drdummy.patient" version="1.0.0">
+<widget xmlns="http://www.w3.org/ns/widgets"  xmlns:gap="http://phonegap.com/ns/1.0" id="com.dripsum.patient" version="1.0.0">
  
-    <name>Dr Dummy Health App</name>
+    <name>Dr. Ipsum Health App</name>
     <preference name="orientation" value="default" />
     <preference name="fullscreen" value="false" />
 	<preference name="SplashScreen" value="splash" />
@@ -10,10 +10,10 @@
     <gap:platform name="ios" />
     <gap:platform name="android" />
     <description>
-      Dr Dummy Health App
+      Dr Ipsum Health App
     </description> 
-    <author href="http://www.infinisystem.com" email="support@infiniteit.biz">
-        Infini Systems
+    <author href="http://www.arth.tech" email="support@arth.tech">
+        Arth Tech
     </author>
     <icon src="icon.png" />
 	
