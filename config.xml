@@ -37,12 +37,12 @@
     <!-- <plugin name="Cordova-Plugin-OpenTok-JBS" version="1.0.0" source="npm" /> -->
     <plugin name="cordova-plugin-opentok" spec="https://github.com/dialoguemd/cordova-plugin-opentok.git" source="git" />
     <gap:plugin name="de.appplant.cordova.plugin.printer" source="npm"/>
-    
+
 
 
     <!-- <gap:plugin name="cordova-plugin-crosswalk-webview-pgb-adapt" source="npm" /> -->
     <plugin name="cordova-build-architecture" spec="https://github.com/MBuchalik/cordova-build-architecture.git#v1.0.1" source="git" />
-    <gap:plugin name="cordova-plugin-crosswalk-webview@2.0.0" source="npm" />
+    <gap:plugin name="cordova-plugin-crosswalk-webview@1.6.0" source="npm" />
     <!-- <gap:plugin name="cordova-plugin-crosswalk-jb" source="npm" /> -->
     <gap:plugin name="onesignal-cordova-plugin@1.9.0" source="npm" />
 
