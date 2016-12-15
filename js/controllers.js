@@ -1863,11 +1863,24 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
             $scope.limit = 3;
             $scope.recId = [];
             $scope.recIds = [];
+            $scope.orderRec = 0;
             $scope.userId = get('id');
             $scope.patientId = get('id');
             $scope.repeatFreq = [];
             $scope.repeatNo = [];
             $ionicLoading.show({template: 'Loading...'});
+            jQuery(".ordercart").hide();
+        
+            $http({
+                    method: 'GET',
+                    url: domain + 'get-pharmacy-allow',
+                    params: {record_id: $stateParams.id,interface_id: $scope.interface}
+                }).then(function successCallback(response) {                    
+                    if(2575 == window.localStorage.getItem('id') && response.data == 1){                        
+                        jQuery(".ordercart").show();
+                    }
+                });                
+          
             $http({
                 method: 'GET',
                 url: domain + 'records/get-records-details',
@@ -1997,10 +2010,37 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
                 console.log($scope.recIds);
 
             };
+            $scope.selectradio = function (id){
+                $scope.orderRec = id;
+                console.log($scope.orderRec);
+            };
             $scope.getDocId = function (id) {
                 console.log(id);
                 $scope.docId = id;
             };
+            //place an order
+            $scope.confirmOrder = function (){
+                if(confirm('You Sure you want to place this order?')){
+                    console.log('place order for: ' + $scope.orderRec);
+                    console.log('going to accept comments page');
+                    $http({
+                            method: 'GET',
+                            url: domain + 'records/check-attachment',
+                            params: {record: $scope.orderRec, user: window.localStorage.getItem('id'), interface_id: $scope.interface}
+                        }).then(function successCallback(response) {   
+                            alert(response.data.message); 
+                            console.log('status: ' + response.data.status);                
+                            if(response.data.status == "1"){
+
+                                $state.go('app.order-comments', {'recordId': $scope.orderRec}, {reload: true});
+                                console.log('hello');
+                            }
+                        });   
+                    
+                }else{
+                    console.log('didnt confirm');
+                }
+            }
             //Delete all Records by category
             $scope.delete = function () {
                 if ($scope.recIds.length > 0) {
@@ -2063,19 +2103,26 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
                 jQuery('#rec3').css('display', 'block');
 
             };
+            $scope.placeOrder = function (){
+                jQuery('.radiorecord').css('display', 'block');
+                jQuery('.btview').css('display', 'none');
+                jQuery('#rec1').css('display', 'none');
+                jQuery('#rec4').css('display', 'block');
+            };
             $scope.recordShare = function () {
                 jQuery('.selectrecord').css('display', 'block');
                 jQuery('.btview').css('display', 'none');
                 jQuery('#rec1').css('display', 'none');
                 jQuery('#rec2').css('display', 'block');
-
-            }
+            };
             $scope.CancelAction = function () {
                 jQuery('.selectrecord').css('display', 'none');
+                jQuery('.radiorecord').css('display', 'none');
                 jQuery('.btview').css('display', 'block');
                 jQuery('#rec1').css('display', 'block');
                 jQuery('#rec2').css('display', 'none');
                 jQuery('#rec3').css('display', 'none');
+                jQuery('#rec4').css('display', 'none');
             };
             $scope.selectcheckbox = function ($event) {
                 console.log($event);
@@ -2141,6 +2188,123 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
                 } else
                     $state.go('app.record-details', {'id': recId, 'shared': $scope.shared, 'res': 'json'}, {reload: true});
             };
+        })
+
+        .controller('ConfirmedOrderCtrl', function ($scope, $http, $stateParams, $rootScope, $state, $compile, $ionicModal, $ionicHistory, $timeout, $filter, $ionicLoading) {
+            $scope.hours = 1;
+            console.log($stateParams);
+            $scope.orderId = $stateParams.orderId;
+            jQuery("#orderid").html($stateParams.orderId);
+            $scope.gotohome = function(){
+                $state.go('app.category-detail');
+            }
+        })
+
+        .controller('OrderCommentsCtrl', function ($scope, $http, $stateParams, $rootScope, $state, $compile, $ionicModal, $ionicHistory, $timeout, $filter, $ionicLoading) {
+            $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.recordId = $stateParams.recordId;            
+            $scope.ordercomments = "enter comments here";
+            $scope.create ={};
+
+
+            $scope.gotoAddress = function(){
+                console.log('placing order for: '+ $scope.recordId);
+                $scope.create['record'] = $scope.recordId
+                $scope.create['user'] = window.localStorage.getItem('id');
+                $scope.create['interface_id'] = $scope.interface;
+                $scope.create['comments'] = jQuery("#ordercomments").val();
+                console.log($scope.create);
+                console.log(JSON.stringify($scope.create));
+                $state.go('app.user-addresses', {'order': $scope.create});                    
+            }
+        })
+        .controller('UserAddressesCtrl', function ($scope, $http, $stateParams, $rootScope, $state, $compile, $ionicModal, $ionicHistory, $timeout, $filter, $ionicLoading) {
+            $scope.order = $stateParams.order; 
+            $scope.addressId = "o";
+            $scope.addresses ={};           
+            
+
+            $scope.addressSelected = function(val){
+                $scope.addressId =val;
+                console.log($scope.addressId);
+            }
+
+            $http({
+                    method: "GET",
+                    url: domain + "get-user-address",
+                    params: {user: $scope.order.user}
+                }).then(function successCallback(response) {
+                    $scope.addresses = response.data;
+                    console.log(response.data);
+                });
+
+            $scope.addnewaddress = function(){
+                $state.go('app.user-address-create',{'order': $scope.order});
+            }
+
+            $scope.confirmOrder = function(){
+                if($scope.addressId != "o"){
+                    $scope.order['addressId'] = $scope.addressId;
+                    console.log('placing order');
+                    console.log($scope.order);
+                    
+                    $http({
+                            method: 'POST',
+                            url: domain + 'placeOrder',
+                            data: JSON.stringify($scope.order)
+                        }).then(function successCallback(response) {   
+                            alert(response.data.message);                 
+                            console.log(response.data);
+                            if(response.data.status == 1){
+                                $state.go('app.confirmed-order', {'id': response.data.request_master_id, 'orderId': response.data.orderId});
+                            }
+                            
+                        });
+                }else{
+                    alert('please select an address');
+                }
+                    
+            }
+                
+        })
+
+        .controller('UserAddressesCreateCtrl', function ($scope, $http, $stateParams, $rootScope, $state, $compile, $ionicModal, $ionicHistory, $timeout, $filter, $ionicLoading) {
+            $scope.order = $stateParams.order;
+            console.log('order');
+            console.log($scope.order);
+
+            $scope.pincodes = {};
+            $http({
+                    method: "GET",
+                    url: domain + "get-pincodes",
+                    params: {}
+                }).then(function successCallback(response) {
+                    $scope.pincodes = response.data;
+                    console.log(response.data);
+                });
+
+            $scope.createaddress= {};
+            $scope.createaddress['user'] = window.localStorage.getItem('id');
+            $scope.createaddress['line1'] = "";
+            $scope.createaddress['street'] = "";
+            $scope.createaddress['locality'] = "";
+            $scope.createaddress['city'] = "";
+            $scope.createaddress['pin'] = "";
+            $scope.createaddress['default'] = 0;
+
+            $scope.submit = function(){
+                console.log(JSON.stringify($scope.createaddress));
+                $http({
+                            method: 'POST',
+                            url: domain + 'addAddress',
+                            data: JSON.stringify($scope.createaddress)
+                        }).then(function successCallback(response) {   
+                            alert(response.data);                 
+                            $state.go('app.user-addresses', {'order': $scope.order});
+                            
+                        });
+            }
+
         })
 
         .controller('PreviewConsultationsNoteCtrl', function ($scope, $http, $stateParams, $rootScope, $state, $compile, $ionicModal, $ionicHistory, $timeout, $filter, $ionicLoading) {

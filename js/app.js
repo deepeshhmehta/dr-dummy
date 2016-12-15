@@ -483,6 +483,64 @@ angular.module('your_app_name', [
                         }
                     })
 
+                    .state('app.confirmed-order', {
+                        cache: false,
+                        url: "/confirmed-order/{id:string}/{orderId:string}",
+                        views: {
+                            'menuContent': {
+                                templateUrl: function () {
+                                    return "views/app/records/confirmed-order.html";
+                                },
+                                controller: 'ConfirmedOrderCtrl'
+                            }
+                        }
+                    })
+
+                    .state('app.order-comments', {
+                        cache: false,
+                        url: "/order-comments/{recordId:string}",
+                        views: {
+                            'menuContent': {
+                                templateUrl: function () {
+                                    return "views/app/records/order-comments.html";
+                                },
+                                controller: 'OrderCommentsCtrl'
+                            }
+                        }
+                    })
+
+                    .state('app.user-addresses', {
+                        cache: false,
+                        url: "/user-addresses/",
+                        views: {
+                            'menuContent': {
+                                templateUrl: function () {
+                                    return "views/app/records/user-addresses.html";
+                                },
+                                controller: 'UserAddressesCtrl'
+                            }
+                        },
+                        params: {
+                            order: null
+                        }
+                    })
+
+                    .state('app.user-address-create', {
+                        cache: false,
+                        url: "/user-address-create/",
+                        views: {
+                            'menuContent': {
+                                templateUrl: function () {
+                                    return "views/app/records/user-address-create.html";
+                                },
+                                controller: 'UserAddressesCreateCtrl'
+                            }
+                        },
+                        params: {
+                            order: null
+                        }
+                    })
+
                     .state('app.chatlist', {
                         cache: false,
                         url: "/chatlist",

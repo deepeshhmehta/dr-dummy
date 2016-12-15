@@ -9068,22 +9068,25 @@ label.item .col{position:relative;}
               margin-top: 5px; color:#fff;  /* border:1px #387ef5 solid; */
 }
 .attachcard{ display:block; font-size:20px; margin:5px 0; text-align:center; position:relative;}
-.selectrecord{display:none;}
-.selectrecord label{padding:6px 5px 5px 50px; /* background:#387ef5;  *//* text-align:center;  */    margin-top: 4px;     border-radius: 0px !important;}
-.selectrecord label.cactive  span{color:#fff; }
-.selectrecord label span{color:#387ef5; }
-.selectrecord  label .checkbox-icon:before{  border-width: 0;
+.selectrecord, .radiorecord{display:none;}
+.selectrecord label, .radiorecord label{padding:6px 5px 5px 50px; /* background:#387ef5;  *//* text-align:center;  */    margin-top: 4px;     border-radius: 0px !important;}
+.selectrecord label.cactive  span, .radiorecord label.cactive  span{color:#fff; }
+.selectrecord label span, .radiorecord label span{color:#387ef5; }
+.selectrecord  label .checkbox-icon:before, .radiorecord  label .radio-icon:before{  border-width: 0;
                                              background: none;
                                              border: 1px #387ef5 solid;
                                              width: 100% !important;
                                              margin-left: 0 !important;
                                              margin-top: 0 !important; height:85% !important;}
 
-.selectrecord.active{display:block;}
-.rec2, .rec3{display:none;}
+.selectrecord.active, .radiorecord.active{display:block;}
+.rec2, .rec3, .rec4{display:none;}
 .rec3 a{width:50%;    width: 50% !important;
         border: 0;
         border-radius: 0px !important;}
+.rec4 a{width:50%;    width: 50% !important;
+        border: 0;
+        border-radius: 0px !important;}        
 .rec2 a{width:50%;    width: 50% !important;
         border: 0;
         border-radius: 0px !important;}
@@ -9093,6 +9096,12 @@ label.item .col{position:relative;}
 .selectrecord .item.item-checkbox{height:32px; position:relative; }
 .selectrecord .checkbox input:before, .selectrecord .checkbox-icon:before{border-radius:0;}
 .selectrecord .item-checkbox .checkbox{left:0; right:0; top:0;   margin-top:0 !important;}
+
+.radiorecord input[type="radio"],.radiorecord  .radio-icon{width:auto !important;     height: 30px;}
+.radiorecord .item-content.disable-pointer-events{position:absolute; z-index:99; left:40%; top:10px;}
+.radiorecord .item.item-radio{height:32px; position:relative; }
+.radiorecord .radio input:before, .radiorecord .radio-icon:before{border-radius:0;}
+.radiorecord .item-radio .radio{left:0; right:0; top:0;   margin-top:0 !important;}
 
 
 
@@ -9540,6 +9549,26 @@ ion-side-menu ion-item.item .item-content .icon:before,.logoutbtn i.icon:before{
    white-space: inherit !important;
    text-overflow: inherit !important;
  }
+
+ .fixbtn{     
+    bottom: 50px;
+    position: fixed;
+    font-size: 30px;
+    color: #fff;
+    background: #122368;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    text-align: center;
+    box-shadow: 0 0 8px rgba(0,0,0,0.8);
+    line-height: 50px; z-index: 9999999999999;
+  }
+.fixbtn.left{
+  left: 10px;
+}
+.fixbtn.right{
+  right: 10px;
+}
 
 
 
