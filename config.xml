@@ -34,8 +34,8 @@
     <preference name="UIWebViewBounce" value="false" />
     <preference name="android-build-tool" value="gradle" />
     
-    <plugin name="Cordova-Plugin-OpenTok-JBS" version="1.0.0" source="npm" />
-    
+    <!-- <plugin name="Cordova-Plugin-OpenTok-JBS" version="1.0.0" source="npm" /> -->
+     <plugin name="cordova-build-architecture" spec="https://github.com/IjzerenHein/cordova-plugin-opentok.git" source="git" />
 
     <gap:plugin name="de.appplant.cordova.plugin.printer" source="npm"/>
 
