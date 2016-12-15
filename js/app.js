@@ -458,6 +458,20 @@ angular.module('your_app_name', [
                         }
                     })
 
+                    .state('app.reminder-summary', {
+                        cache: false,
+                        url: "/reminder-summary",
+                        views: {
+                            'menuContent': {
+                                templateUrl: function () {
+                                    return "views/app/reminder-summary.html";
+                                },
+                                //controller: 'reminderRecentCtrl'
+                                controller: 'reminderSummaryCtrl'
+                            }
+                        }
+                    })
+
                     .state('app.edit-record', {
                         url: "/edit-record/{id:int}/{cat:int}",
                         views: {

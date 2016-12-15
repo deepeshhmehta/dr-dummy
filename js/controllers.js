@@ -7441,6 +7441,18 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
                 });
             };
         })
+        
+        .controller('reminderSummaryCtrl', function($scope, $http, $filter){
+            $scope.cards ={};
+            $http({
+                    method: 'GET',
+                    url: domain + 'tracker/getSummary',
+                    params: {user: window.localStorage.getItem('id')}
+                }).then(function sucessCallback(response) {
+                    $scope.cards = response.data;
+                    console.log(response.data);
+                })
+        })
 
         .controller('reminderRecentCtrl', function ($scope, $http, $filter) {
             $scope.cards = [];
