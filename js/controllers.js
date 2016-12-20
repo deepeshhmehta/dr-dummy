@@ -7450,8 +7450,22 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
                     params: {user: window.localStorage.getItem('id')}
                 }).then(function sucessCallback(response) {
                     $scope.cards = response.data;
-                    console.log(response.data);
-                })
+                    console.log($scope.cards);
+                });
+
+            $scope.checkIfSelf = function(val){
+                var ret = (val == window.localStorage.getItem('id'))? true : false;
+                return ret;
+            }
+
+            $scope.detailedSummary = function(val){
+                console.log(val);
+            }
+        })
+
+
+        .controller('reminderSummaryDetailsCtrl', function($scope, $http, $filter){
+           
         })
 
         .controller('reminderRecentCtrl', function ($scope, $http, $filter) {
