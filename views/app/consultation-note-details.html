@@ -1,0 +1,91 @@
+<ion-view class="category-list-view">
+    
+    <ion-nav-title>
+        <span>Consultation Note Details</span>
+    </ion-nav-title>
+	 
+    <ion-content>
+
+        <div class="list catlist">
+            <div class="maintab" style="margin:0;">
+                <div>
+                    <div class="row tabnav" >
+                        <div class="col"><a  ng-class="(tabnav['observations'] == 1)? 'active options observations':'options observations'" ng-click="tabClicked('observations')">Observations</a></div> 
+                        <div class="col"><a  ng-class="(tabnav['diagnosis'] == 1)? 'active options diagnosis':'options diagnosis'" ng-click="tabClicked('diagnosis')">Diagnosis</a></div>                           
+                        <div class="col"><a  ng-class="(tabnav['treatment'] == 1)? 'active options treatment':'options treatment'" ng-click="tabClicked('treatment')">Treatmenting</a></div>
+                    </div>
+                </div>        
+            </div>
+            <div class="clr"></div><div class="clr"></div>
+            <div class="sldebxcontent" ng-show="tabnav['observations']" ng-controller='ConsultationsNotesObservationViewCtrl'>
+                <div ng-include src="'views/app/consultation-note-observation-view.html'" ></div>                        
+            </div>
+            <div class="sldebxcontent" ng-show="tabnav['diagnosis']" ng-controller='ConsultationsNotesDiagnosisViewCtrl'>
+                <div ng-include src="'views/app/consultation-note-diagnosis-view.html'" ></div>                        
+            </div>
+            <div class="sldebxcontent" ng-show="tabnav['treatment']" ng-controller='ConsultationsNotesTreatmentViewCtrl'>
+                <div ng-include src="'views/app/consultation-note-treatment-view.html'" ></div>                        
+            </div>
+            
+            <!-- <div ng-repeat="option in options">                
+                <a class="item item-icon-right accordian greyblock" ng-click="goUrl('{{option.url}}','{{option.category}}','{{option.name}}')" ng-if="(option.children.length==0)">
+                    <span class="ctitle">{{option.name|capitalize}}</span>  
+                </a>
+
+                <a class="item item-icon-right accordian greyblock" ng-if="(option.children.length!=0)">
+                    <span class="ctitle">{{option.name|capitalize}}</span>	
+                </a>
+                
+                <div class="panel hide" ng-if="check(option.children)">
+                    <div ng-repeat="child in option.children" >
+                        <a class ="item" ng-click="goUrl('{{child.url}}','{{child.category}}','{{child.name}}')">{{child.name|capitalize}}</a>
+                    </div>
+                </div>
+            </div> -->
+
+        </div>
+    </ion-content>
+
+</ion-view>
+
+<script id="create-Observation" type="text/ng-template">
+    <ion-modal-view>
+        <ion-header-bar class="bar app-top-bar">
+            <h1 class="title">Write an Observation</h1>
+            <div class="button button-clear" ng-click="modal.hide()"><span class="icon ion-close"></span></div>
+        </ion-header-bar>
+        <ion-content>
+            
+                <div class="item item-divider"><span>Observation </span></div> 
+                <label class="item item-input listreq">
+                  <textarea ng-model="data.observation" type = "text" required placeholder="Observation" rows="25" cols="300" style="resize: none;">
+                    
+                  </textarea>
+                </label>
+                <button ng-click="saveObservation()" class="button button-positive button-block">Add</button>
+            
+        </ion-content>
+    </ion-modal-view>
+</script>
+
+<script id="create-diagnosis" type="text/ng-template">
+    <ion-modal-view>
+        <ion-header-bar class="bar app-top-bar">
+            <h1 class="title">Write a Diagnosis</h1>
+            <div class="button button-clear" ng-click="modal.hide()"><span class="icon ion-close"></span></div>
+        </ion-header-bar>
+        <ion-content>
+            
+                <div class="item item-divider"><span>Diagnosis </span></div> 
+                <label class="item item-input listreq">
+                  <textarea ng-model="data.diagnosis" type = "text" required placeholder="Diagnosis" rows="25" cols="300" style="resize: none;">
+                    
+                  </textarea>
+                </label>
+                <button ng-click="saveDiagnosis()" class="button button-positive button-block">Add</button>
+            
+        </ion-content>
+    </ion-modal-view>
+</script>
+
+
