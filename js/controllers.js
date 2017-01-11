@@ -1197,7 +1197,7 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
             };
         })
 
-        .controller('SharedwithYouCtrl', function ($scope, $http, $state, $stateParams, $timeout, $ionicModal, $rootScope, $sce) {
+        .controller('SharedwithYouCtrl', function ($scope, $http, $state, $stateParams, $timeout, $ionicModal, $rootScope, $sce, $ionicLoading) {
             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.patientId = get('id');
@@ -1294,6 +1294,47 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
                 console.log($scope.catIds);
                 $scope.modal.hide();
             };
+
+            // Added by Tushar at 11/01 
+            $ionicLoading.show({template: 'Loading...'});
+            $http({
+                method: 'GET',
+                url: domain + 'doctors/get-shared-record-doctors',
+                params: {userId: $scope.userId, patientId: $scope.patientId, interface: $scope.interface}
+            }).then(function successCallback(response) {
+                console.log(response.data);
+                $scope.userRecords = response.data;
+                $ionicLoading.hide();
+            }, function errorCallback(e) {
+                console.log(e);
+            });
+
+        })
+
+        .controller('RecordsViewBoxCtrl', function ($scope, $http, $stateParams, $ionicModal, $ionicLoading) {
+            console.log('RecordsViewBoxCtrl');
+            $scope.allCats = [];
+            $scope.selectedDoctorId = $stateParams.id;
+            $scope.selectedDoctorName = $stateParams.name;
+            $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
+            $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.patientId = get('id');
+            $scope.userId = get('id');
+
+            $ionicLoading.show({template: 'Loading...'});
+            $http({
+                method: 'GET',
+                url: domain + 'doctors/get-shared-record-doctors-details',
+                params: {userId: $scope.userId, patientId: $scope.patientId, interface: $scope.interface, doctorId: $scope.selectedDoctorId}
+            }).then(function successCallback(response) {
+                console.log(response.data);
+                $scope.allCats = response.data;
+                console.log($scope.allCats);
+                $ionicLoading.hide();
+            }, function errorCallback(e) {
+                console.log(e);
+            });
+
         })
 
         .controller('MedicineCtrl', function ($scope, $http, $stateParams, $ionicModal) {

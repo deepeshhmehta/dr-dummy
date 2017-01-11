@@ -510,6 +510,19 @@ angular.module('your_app_name', [
                             }
                         }
                     })
+                    // Records view with box of categories
+                    .state('app.records-view-box', {
+                        cache: false,
+                        url: "/records-view-box/{id:int}/{name:string}",
+                        views: {
+                            'menuContent': {
+                                templateUrl: function () {
+                                    return "views/app/records/records-view-box.html";
+                                },
+                                controller: 'RecordsViewBoxCtrl'
+                            }
+                        }
+                    })
 
                     .state('app.confirmed-order', {
                         cache: false,
