@@ -1906,6 +1906,8 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
             $scope.interface = window.localStorage.getItem('interface_id');
             unset(['patientId', 'doctorId', 'recId']);
             $scope.userId = get('doctorid');
+            $scope.create = get('create');
+            unset(['create']);
             $scope.category = [];
             $scope.catId = $stateParams.id;
             $scope.shared = $stateParams.shared;
@@ -2232,10 +2234,12 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
             $scope.viewDetails = function (recId, appId, userId, patientId, doctorId) {
                 console.log("RecId ==" + recId + "App Id ==" + appId + "== Cat" + $scope.catId + "User Id " + userId + "Patient -" + patientId + " doc - " + doctorId);
                 if ($scope.userId != userId && $scope.catId == '8') {
-                    store({'backurl': 'records-view', 'patientId': patientId, 'doctorId': doctorId});
+                    store({'backurl': 'records-view', 'patientId': patientId, 'doctorId': doctorId,'create':$scope.create});
                     $state.go('app.preview-note', {'id': recId, 'appId': appId, 'res': 'json'}, {reload: true});
-                } else
+                } else{
+                    store({'create':$scope.create});
                     $state.go('app.record-details', {'id': recId, 'shared': $scope.shared, 'res': 'json'}, {reload: true});
+                }
             };
         })
 
@@ -4066,6 +4070,7 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
         })
 
         .controller('RecordDetailsCtrl', function ($scope, $http, $state, $stateParams, $timeout, $ionicModal, $ionicLoading, $rootScope, $sce) {
+            $scope.create = get('create');
             $scope.recordId = $stateParams.id;
             $scope.userId = get('id');
             $scope.shared = $stateParams.shared;
