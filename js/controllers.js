@@ -1340,7 +1340,7 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
                 cat = "" + cat +"";
                 console.log('gotopage: ' + goUrl);
                 store({'patientId': $scope.patientId,'doctorid':$scope.selectedDoctorId,shared: 0,create: 0});
-                $state.go(goUrl, {'patientId': $scope.patientId,'userId' : $scope.selectedDoctorId, 'id':cat,shared: '0'}, {relaod: true});
+                $state.go(goUrl, {'patientId': $scope.patientId,'userId' : $scope.selectedDoctorId, 'id':cat,shared: '1'}, {relaod: true});
             }
 
         })
@@ -4257,6 +4257,50 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
             };
         })
 
+        .controller('mealDetails2Ctrl', function ($scope, $ionicModal) {
+            
+            $ionicModal.fromTemplateUrl('mealdispdetails', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.modal = modal;
+                $scope.daymodal2 = function(day,parent) {
+                    console.log(day);
+                    console.log(parent);
+                    $scope.dietPlanDetails = [];
+                    $scope.dietData = $scope.cardsViewRecords['diet-details'][parent][day]['data'];
+                    console.log($scope.dietData);
+                    $scope.diet = $scope.cardsViewRecords['diet-details'][parent][day]['data'];
+                    console.log('Day ' + day);
+                    $scope.Mealday = (day + 1);
+                    var i, j, temparray, chunk = 4;
+                    for (i = 0, j = $scope.diet.length; i < j; i += chunk) {
+                        $scope.dietPlanDetails.push($scope.diet.slice(i, i + chunk));
+                    }
+                    console.log($scope.dietPlanDetails);
+                    $scope.modal.show();
+                };
+                $scope.daymodal = function (day,parent) {
+                    console.log(day);
+                    console.log(parent);
+                    $scope.dietPlanDetails = [];
+                    $scope.dietData = $scope.cards['diet-details'][parent][day]['data'];
+                    console.log($scope.dietData);
+                    $scope.diet = $scope.cards['diet-details'][parent][day]['data'];
+                    console.log('Day ' + day);
+                    $scope.Mealday = (day + 1);
+                    var i, j, temparray, chunk = 4;
+                    for (i = 0, j = $scope.diet.length; i < j; i += chunk) {
+                        $scope.dietPlanDetails.push($scope.diet.slice(i, i + chunk));
+                    }
+                    console.log($scope.dietPlanDetails);
+                    $scope.modal.show();
+                };
+            });
+            $scope.submitmodal = function () {
+                //console.log($scope.catIds);
+                $scope.modal.hide();
+            };
+        })
         .controller('mealDetailsCtrl', function ($scope, $ionicModal) {
             $ionicModal.fromTemplateUrl('mealdetails', {
                 scope: $scope
@@ -8881,10 +8925,10 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
             $scope.noteid = get('noteId');
             $scope.data = {};
             $scope.data['noteid'] = $scope.noteid;
-            $scope.doRefresh = function(){
+            $scope.doRefreshObservations = function(){
                 $http({
                         method: 'GET',
-                        url: domain + 'doctors/consultation-notes-observations-patients',
+                        url: domain + 'doctors/consultation-notes-observations',
                         params: {note_id: $scope.noteid}
                     }).then(function successCallback(response) {
                         $scope.cards = {};
@@ -8896,28 +8940,29 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
                 $scope.$broadcast('scroll.refreshComplete');
             }
 
-            // $scope.addObservation = function(){
-            //     $scope.modal.show();
-            // }
-            // $ionicModal.fromTemplateUrl('create-Observation', {
-            //     scope: $scope
-            // }).then(function (modal) {
-            //     $scope.modal = modal;
-            // });
-            // $scope.saveObservation = function(){
-            //     console.log(JSON.stringify($scope.data));
-            //     $scope.modal.hide();
-            //     $http({
-            //             method: 'POST',
-            //             url: domain + 'doctors/consultation-notes-add-observations',
-            //             data: JSON.stringify($scope.data)
-            //         }).then(function successCallback(response) {
-            //             alert(response.data.message);
-            //             $scope.doRefresh();
-            //         });
-            // }
+            $scope.addObservation = function(){
+                $scope.modal.show();
+            }
+            $ionicModal.fromTemplateUrl('create-Observation', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.modal = modal;
+            });
+            $scope.saveObservation = function(){
+                console.log(JSON.stringify($scope.data));
+                $scope.modal.hide();
+                $http({
+                        method: 'POST',
+                        url: domain + 'doctors/consultation-notes-add-observations',
+                        data: JSON.stringify($scope.data)
+                    }).then(function successCallback(response) {
+                        alert(response.data.message);
+                        $scope.doRefresh();
+                        
+                    });
+            }
 
-            $scope.doRefresh();            
+            $scope.doRefreshObservations();            
         })
 
         .controller('ConsultationsNotesDiagnosisViewCtrl',function($scope, $http, $stateParams, $rootScope, $state, $compile, $ionicModal, $ionicHistory, $timeout, $filter, $ionicLoading){
@@ -8925,41 +8970,42 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
             $scope.data = {};
             $scope.data['noteid'] = $scope.noteid;
 
-            // $scope.addDiagnosis = function(){
-            //     $scope.modal.show();
-            // }
-            // $ionicModal.fromTemplateUrl('create-diagnosis', {
-            //     scope: $scope
-            // }).then(function (modal) {
-            //     $scope.modal = modal;
-            // });
+            $scope.addDiagnosis = function(){
+                $scope.modal.show();
+            }
+            $ionicModal.fromTemplateUrl('create-diagnosis', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.modal = modal;
+            });
 
             $scope.doRefresh = function(){
                 $http({
                         method: 'GET',
-                        url: domain + 'doctors/consultation-notes-diagnosis-patients',
+                        url: domain + 'doctors/consultation-notes-diagnosis',
                         params: {note_id: $scope.noteid}
                     }).then(function successCallback(response) {
-                        $scope.cards = {};
-                        $scope.cards = response.data.existing_diagnosis;
+                        $scope.cardsDiagnosis = {};
+                        $scope.cardsDiagnosis = response.data.existing_diagnosis;
 
-                        console.log($scope.cards);
+                        console.log($scope.cardsDiagnosis);
                         console.log(response.data.message);
                     });
                 $scope.$broadcast('scroll.refreshComplete');
             }
-            // $scope.saveDiagnosis = function(){
-            //     console.log(JSON.stringify($scope.data));
-            //     $scope.modal.hide();
-            //     $http({
-            //             method: 'POST',
-            //             url: domain + 'doctors/consultation-notes-add-diagnosis',
-            //             data: JSON.stringify($scope.data)
-            //         }).then(function successCallback(response) {
-            //             alert(response.data.message);
-            //             $scope.doRefresh();
-            //         });
-            // }
+            $scope.saveDiagnosis = function(){
+                console.log(JSON.stringify($scope.data));
+                $scope.modal.hide();
+                $http({
+                        method: 'POST',
+                        url: domain + 'doctors/consultation-notes-add-diagnosis',
+                        data: JSON.stringify($scope.data)
+                    }).then(function successCallback(response) {
+                        alert(response.data.message);
+                        $scope.doRefresh();
+                        
+                    });
+            }
 
             $scope.doRefresh();
         })
@@ -8968,7 +9014,7 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
 
             $http({
                         method: 'GET',
-                        url: domain + 'doctors/consultation-note-treatment-patients',
+                        url: domain + 'doctors/consultation-note-treatment',
                         params: {noteid: $scope.noteid}
                     }).then(function successCallback(response) {
                         $scope.allCats = response.data;
@@ -9004,11 +9050,11 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
             }
             $scope.doRefresh();
 
-            // $scope.addNew = function(val){
-            //     console.log(val);
-            //     store({'noteid': $scope.noteid});
-            //     $state.go('app.add-category', {'id':val}, {reload: true});
-            // }
+            $scope.addNew = function(val){
+                console.log(val);
+                store({'noteid': $scope.noteid});
+                $state.go('app.add-category', {'id':val}, {reload: true});
+            }
 
             $scope.getDetails = function(val){
                 console.log(val);
@@ -9016,28 +9062,28 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
                 $state.go('app.record-details', {'id': val}, {reload: true});
             }
 
-            // $scope.shareTreatment = function(){
-            //     if(confirm('Are you sure you want to share all '+$scope.catname+' records with the patient?')){
-            //         console.log('sharing following treatments with the patient');
+            $scope.shareTreatment = function(){
+                if(confirm('Are you sure you want to share all '+$scope.catname+' records with the patient?')){
+                    console.log('sharing following treatments with the patient');
                     
-            //         $scope.data['noteid'] = $scope.noteid;
-            //         $scope.data['categories'] =[$scope.catid];
-            //         $scope.data['type'] = 4;
-            //         console.log(JSON.stringify($scope.data));
+                    $scope.data['noteid'] = $scope.noteid;
+                    $scope.data['categories'] =[$scope.catid];
+                    $scope.data['type'] = 4;
+                    console.log(JSON.stringify($scope.data));
 
-            //         $http({
-            //             method: 'POST',
-            //             url: domain + 'doctors/share-consultation-note-details',
-            //             data: JSON.stringify($scope.data)
-            //         }).then(function successCallback(response) {
-            //             alert(response.data.message);
-            //         },function errorCallback(response){
-            //             alert('there was an error encountered');
-            //             console.log(response.data.message);
-            //             console.log(response.data.error);
-            //         });
+                    $http({
+                        method: 'POST',
+                        url: domain + 'doctors/share-consultation-note-details',
+                        data: JSON.stringify($scope.data)
+                    }).then(function successCallback(response) {
+                        alert(response.data.message);
+                    },function errorCallback(response){
+                        alert('there was an error encountered');
+                        console.log(response.data.message);
+                        console.log(response.data.error);
+                    });
 
-            //     }
-            // }
+                }
+            }
         })
         ;

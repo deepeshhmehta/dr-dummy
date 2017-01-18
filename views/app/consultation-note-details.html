@@ -10,10 +10,8 @@
             <div class="maintab" style="margin:0;">
                 <div>
                     <div class="row tabnav" >
-                        <div class="col"><a  ng-class="(tabnav['observations'] == 1)? 'active options observations':'options observations'" ng-click="tabClicked('observations')">Observations</a></div> 
-                        <div class="col"><a  ng-class="(tabnav['diagnosis'] == 1)? 'active options diagnosis':'options diagnosis'" ng-click="tabClicked('diagnosis')">Diagnosis</a></div>                           
-                        <div class="col"><a  ng-class="(tabnav['treatment'] == 1)? 'active options treatment':'options treatment'" ng-click="tabClicked('treatment')">Treatmenting</a></div>
-                    </div>
+                        <div class="col" ng-repeat="option in options"><a  ng-class="(tabnav['{{option.name|tolowercase}}'] == 1)? 'active options {{option.name|tolowercase}}':'options {{option.name|tolowercase}}'" ng-click="tabClicked('{{option.name|tolowercase}}','{{option.url}}')">{{option.name|capitalize}}</a></div>   
+                    </div>            
                 </div>        
             </div>
             <div class="clr"></div><div class="clr"></div>
@@ -45,6 +43,10 @@
 
         </div>
     </ion-content>
+    <!-- <div class="footerbar button-bar" id="rec1">
+        <a class="button btn-share" ng-click="noteShare()"><i class="icon ion-android-share-alt"></i> Share Entire Note</a>
+    </div> -->
+    
 
 </ion-view>
 
