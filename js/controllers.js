@@ -1206,22 +1206,22 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
             $scope.catIds = [];
             $scope.catId = [];
             $scope.docId = '';
-            $http({
-                method: 'GET',
-                url: domain + 'records/get-shared-record-category',
-                params: {userId: $scope.userId, patientId: $scope.patientId, interface: $scope.interface, shared: $scope.shared}
-            }).then(function successCallback(response) {
-                console.log(response.data);
-                $scope.categories = response.data.categories;
-                $scope.doctrs = response.data.doctrs;
-                $scope.userRecords = response.data.recordCount;
-                $scope.patient = response.data.patient;
-                $scope.langtext = response.data.langtext;
-                $scope.language = response.data.lang.language;
+            // $http({
+            //     method: 'GET',
+            //     url: domain + 'records/get-shared-record-category',
+            //     params: {userId: $scope.userId, patientId: $scope.patientId, interface: $scope.interface, shared: $scope.shared}
+            // }).then(function successCallback(response) {
+            //     console.log(response.data);
+            //     $scope.categories = response.data.categories;
+            //     $scope.doctrs = response.data.doctrs;
+            //     $scope.userRecords = response.data.recordCount;
+            //     $scope.patient = response.data.patient;
+            //     $scope.langtext = response.data.langtext;
+            //     $scope.language = response.data.lang.language;
 
-            }, function errorCallback(e) {
-                console.log(e);
-            });
+            // }, function errorCallback(e) {
+            //     console.log(e);
+            // });
             $scope.getIds = function (id) {
                 console.log(id);
                 if ($scope.catId[id]) {
@@ -1308,41 +1308,6 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
             }, function errorCallback(e) {
                 console.log(e);
             });
-
-        })
-
-        .controller('RecordsViewBoxCtrl', function ($scope, $http, $stateParams, $ionicModal, $state, $ionicLoading) {
-            console.log('RecordsViewBoxCtrl');
-            $scope.allCats = [];
-            $scope.selectedDoctorId = $stateParams.id;
-            $scope.selectedDoctorName = $stateParams.name;
-            $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
-            $scope.interface = window.localStorage.getItem('interface_id');
-            $scope.patientId = get('id');
-            $scope.userId = get('doctorid');
-
-            console.log($scope.userId);
-            $ionicLoading.show({template: 'Loading...'});
-            $http({
-                method: 'GET',
-                url: domain + 'doctors/get-shared-record-doctors-details',
-                params: {userId: $scope.userId, patientId: $scope.patientId, interface: $scope.interface, doctorId: $scope.selectedDoctorId}
-            }).then(function successCallback(response) {
-                console.log(response.data);
-                $scope.allCats = response.data;
-                console.log($scope.allCats);
-                $ionicLoading.hide();
-            }, function errorCallback(e) {
-                console.log(e);
-            });
-
-            $scope.gotopage = function(goUrl,cat){
-                cat = "" + cat +"";
-                console.log('gotopage: ' + goUrl);
-                store({'patientId': $scope.patientId,'doctorid':$scope.selectedDoctorId,shared: 0,create: 0});
-                $state.go(goUrl, {'patientId': $scope.patientId,'userId' : $scope.selectedDoctorId, 'id':cat,shared: '1'}, {relaod: true});
-            }
-
         })
 
         .controller('MedicineCtrl', function ($scope, $http, $stateParams, $ionicModal) {
@@ -9086,4 +9051,38 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
                 }
             }
         })
+
+        .controller('RecordsViewBoxCtrl', function ($scope, $http, $stateParams, $ionicModal, $state, $ionicLoading) {
+            console.log('RecordsViewBoxCtrl');
+            $scope.allCats = [];
+            $scope.selectedDoctorId = $stateParams.id;
+            $scope.selectedDoctorName = $stateParams.name;
+            $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
+            $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.patientId = get('id');
+            $scope.userId = get('doctorid');
+
+            console.log($scope.userId);
+            $ionicLoading.show({template: 'Loading...'});
+            $http({
+                method: 'GET',
+                url: domain + 'doctors/get-shared-record-doctors-details',
+                params: {userId: $scope.userId, patientId: $scope.patientId, interface: $scope.interface, doctorId: $scope.selectedDoctorId}
+            }).then(function successCallback(response) {
+                console.log(response.data);
+                $scope.allCats = response.data;
+                console.log($scope.allCats);
+                $ionicLoading.hide();
+            }, function errorCallback(e) {
+                console.log(e);
+            });
+
+            $scope.gotopage = function(goUrl,cat){
+                cat = "" + cat +"";
+                console.log('gotopage: ' + goUrl);
+                store({'patientId': $scope.patientId,'doctorid':$scope.selectedDoctorId,shared: 0,create: 0});
+                $state.go(goUrl, {'patientId': $scope.patientId,'userId' : $scope.selectedDoctorId, 'id':cat,shared: '1'}, {relaod: true});
+            }
+        })
+        
         ;

@@ -1218,7 +1218,7 @@ angular.module('your_app_name', [
                                 controller: 'ConsultationNoteRecordsCtrl'
                             }
                         }
-                    }) 
+                    })
                     ;
 
             // if none of the above states are matched, use this as the fallback
