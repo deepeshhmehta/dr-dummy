@@ -241,6 +241,7 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
                     };
                     //check OTP bhavana
                     $scope.checkOTP = function (otp) {
+                        $ionicLoading.show({template: 'Loading..'});
                         $scope.interface = window.localStorage.getItem('interface_id');
                         $scope.registervia = window.localStorage.getItem('registervia');
                         $scope.user = {};
@@ -261,6 +262,7 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
                                 contentType: false,
                                 processData: false,
                                 success: function (response) {
+                                    $ionicLoading.hide();
                                     if (angular.isObject(response)) {
                                         store(response);
                                         $rootScope.userLogged = 1;
@@ -303,10 +305,12 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
 
                                 },
                                 error: function (e) {
+                                    $ionicLoading.hide();
                                     console.log(e.responseText);
                                 }
                             });
                         } else {
+                            $ionicLoading.hide();
                             alert('Enterd OTP code is incorrect.Kindly ckeck');
                         }
                     };
